@@ -2,7 +2,7 @@
 
 -export([init/1, do/1, format_error/1]).
 
--define(PROVIDER, rebar3_plugin).
+-define(PROVIDER, {{ repo-name }}).
 -define(DEPS, []).
 -define(OPTS, [
     {boolean,   $b, "boolean",      {boolean, false},     "Boolean example"},
@@ -18,12 +18,12 @@
 -spec init(rebar_state:t()) -> {ok, rebar_state:t()}.
 init(State) ->
     Provider = providers:create([
-        {name, ?PROVIDER},                 % The 'user friendly' name of the task
-        {module, ?MODULE},                 % The module implementation of the task
-        {bare, true},                      % The task can be run by the user, always true
-        {deps, ?DEPS},                     % The list of dependencies
-        {example, "rebar3 rebar3_plugin"}, % How to use the plugin
-        {opts, ?OPTS},                     % list of options understood by the plugin
+        {name, ?PROVIDER},                   % The 'user friendly' name of the task
+        {module, ?MODULE},                   % The module implementation of the task
+        {bare, true},                        % The task can be run by the user, always true
+        {deps, ?DEPS},                       % The list of dependencies
+        {example, "rebar3 {{ repo-name }}"}, % How to use the plugin
+        {opts, ?OPTS},                       % list of options understood by the plugin
         {short_desc, "A rebar plugin"},
         {desc, "A rebar plugin"}
     ]),
