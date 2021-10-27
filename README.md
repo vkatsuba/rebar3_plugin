@@ -1,2 +1,7 @@
 # rebar3_plugin
-rebar3 plugin
+
+A rebar plugin
+
+## How To
+* Create a new repo from this template
+* Run the `./bootstrap` script
