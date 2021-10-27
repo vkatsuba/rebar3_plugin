@@ -4,5 +4,5 @@
 
 -spec init(rebar_state:t()) -> {ok, rebar_state:t()}.
 init(State) ->
-    {ok, State1} = rebar3_plugin_prv:init(State),
+    {ok, State1} = {{ repo-name }}_prv:init(State),
     {ok, State1}.
