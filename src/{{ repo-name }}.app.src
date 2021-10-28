@@ -1,10 +1,10 @@
-{application, {{ repo-name }},
+{application,
+ {{ repo-name }},
  [{description, "A rebar plugin"},
   {vsn, semver},
   {registered, []},
   {applications, [kernel, stdlib]},
-  {env,[]},
+  {env, []},
   {modules, []},
   {licenses, ["Apache 2.0"]},
-  {links, [{"github", "{{ git-url }}"}]}
- ]}.
+  {links, [{"github", "{{ git-url }}"}]}]}.
