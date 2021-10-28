@@ -1,6 +1,12 @@
+%%% @doc Plugin provider for rebar3 {{ repo-name }}.
 -module({{ repo-name }}_prv).
 
 -export([init/1, do/1, format_error/1]).
+
+-ignore_xref([do/1, format_error/1,
+              {providers, create, 1},
+              {rebar_state, add_provider, 2},
+              {rebar_state, command_parsed_args, 1}]).
 
 -define(PROVIDER, {{ repo-name }}).
 -define(DEPS, []).
@@ -18,12 +24,12 @@
 -spec init(rebar_state:t()) -> {ok, rebar_state:t()}.
 init(State) ->
     Provider = providers:create([
-        {name, ?PROVIDER},                   % The 'user friendly' name of the task
-        {module, ?MODULE},                   % The module implementation of the task
-        {bare, true},                        % The task can be run by the user, always true
-        {deps, ?DEPS},                       % The list of dependencies
+        {name, ?PROVIDER}, % The 'user friendly' name of the task
+        {module, ?MODULE}, % The module implementation of the task
+        {bare, true},      % The task can be run by the user, always true
+        {deps, ?DEPS},     % The list of dependencies
         {example, "rebar3 {{ repo-name }}"}, % How to use the plugin
-        {opts, ?OPTS},                       % list of options understood by the plugin
+        {opts, ?OPTS},     % list of options understood by the plugin
         {short_desc, "A rebar plugin"},
         {desc, "A rebar plugin"}
     ]),
@@ -32,9 +38,16 @@ init(State) ->
 
 -spec do(rebar_state:t()) -> {ok, rebar_state:t()} | {error, string()}.
 do(State) ->
-    {ok, State}.
+    Opts = parse_opts(State),
+    ok = rebar_api:debug("Opts: ~p", [Opts]),
+    case Opts of
+        #{boolean := true} ->
+            {ok, State};
+        _ ->
+            {error, io_lib:format("Was broken with Opts: ~p", [Opts])}
+    end.
 
--spec format_error(any()) ->  iolist().
+-spec format_error(any()) -> iolist().
 format_error(Reason) ->
     io_lib:format("~p", [Reason]).
 
@@ -42,6 +55,7 @@ format_error(Reason) ->
 %% Internal functions
 %% =============================================================================
 
+-spec parse_opts(rebar_state:t()) -> maps:map().
 parse_opts(State) ->
     {Args, _} = rebar_state:command_parsed_args(State),
     #{

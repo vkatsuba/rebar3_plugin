@@ -1,6 +1,6 @@
 REPO_NAME=$(basename `git rev-parse --show-toplevel`)
 README=README
-GIT_URL=$(git rev-parse --show-toplevel)
+GIT_URL=$(git config --get remote.origin.url)
 
 mv "src/{{ repo-name }}_prv.erl" "src/${REPO_NAME}_prv.erl"
 mv "src/{{ repo-name }}.app.src" "src/${REPO_NAME}.app.src"
@@ -20,8 +20,9 @@ sed -i "s/{{ repo-name }}/${REPO_NAME}/g" test/${REPO_NAME}_SUITE.erl
 sed -i "s/{{ repo-name }}/${REPO_NAME}/g" .github/ISSUE_TEMPLATE/bug_report.md
 sed -i "s/{{ repo-name }}/${REPO_NAME}/g" .github/ISSUE_TEMPLATE/feature_request.md
 
-sed -i "s/{{ git-url }}/${GIT_URL}/g" .github/ISSUE_TEMPLATE/bug_report.md
-sed -i "s/{{ git-url }}/${GIT_URL}/g" .github/ISSUE_TEMPLATE/feature_request.md
+sed -i "s,{{ git-url }},${GIT_URL},g" src/${REPO_NAME}.app.src
+sed -i "s,{{ git-url }},${GIT_URL},g" .github/ISSUE_TEMPLATE/bug_report.md
+sed -i "s,{{ git-url }},${GIT_URL},g" .github/ISSUE_TEMPLATE/feature_request.md
 
 sed -i "s/{{ repo-name }}/${REPO_NAME}/g" ${README}.md
 

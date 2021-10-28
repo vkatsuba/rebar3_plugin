@@ -2,9 +2,12 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
+    branches: [ $default-branch ]
+  release:
+    types:
+      - created
+  workflow_dispatch:
 
 jobs:
   ubuntu:
@@ -12,13 +15,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        otp: [22.3, 23.3, 24.1]
+        otp: [23.3, 24.1]
       fail-fast: false
     container:
       image: erlang:${{ matrix.otp }}
     steps:
     - uses: actions/checkout@v2
     - name: Bootstrap
+      if: always()
       run: ./bootstrap
+    - name: Format check
+      run: rebar3 format --verify
     - name: Tests
-      run: rebar3 ct
+      run: rebar3 test
