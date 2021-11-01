@@ -1,29 +1,40 @@
-REPO_NAME=$(basename `git rev-parse --show-toplevel`)
-README=README
-GIT_URL=$(git config --get remote.origin.url)
+clean() {
+    cp -r .clean/* .
+    rm -rf .github elvis.config
+}
 
-mv "src/{{ repo-name }}_prv.erl" "src/${REPO_NAME}_prv.erl"
-mv "src/{{ repo-name }}.app.src" "src/${REPO_NAME}.app.src"
-mv "src/{{ repo-name }}.erl" "src/${REPO_NAME}.erl"
+"$@"
 
-mv "test/{{ repo-name }}_SUITE.erl" "test/${REPO_NAME}_SUITE.erl"
+bootstraping() {
+    REPO_NAME=$(basename `git rev-parse --show-toplevel`)
+    README=README
+    GIT_URL=$(git config --get remote.origin.url)
 
-mv "{{ readme }}.md" "${README}.md"
+    mv "src/{{ repo-name }}_prv.erl" "src/${REPO_NAME}_prv.erl"
+    mv "src/{{ repo-name }}.app.src" "src/${REPO_NAME}.app.src"
+    mv "src/{{ repo-name }}.erl" "src/${REPO_NAME}.erl"
+    mv "test/{{ repo-name }}_SUITE.erl" "test/${REPO_NAME}_SUITE.erl"
+    mv "{{ readme }}.md" "${README}.md"
 
-sed -i "s/{{ repo-name }}/${REPO_NAME}/g" rebar.config
-sed -i "s/{{ repo-name }}/${REPO_NAME}/g" src/${REPO_NAME}_prv.erl
-sed -i "s/{{ repo-name }}/${REPO_NAME}/g" src/${REPO_NAME}.app.src
-sed -i "s/{{ repo-name }}/${REPO_NAME}/g" src/${REPO_NAME}.erl
+    sed -i "s/{{ repo-name }}/${REPO_NAME}/g" rebar.config
+    sed -i "s/{{ repo-name }}/${REPO_NAME}/g" src/${REPO_NAME}_prv.erl
+    sed -i "s/{{ repo-name }}/${REPO_NAME}/g" src/${REPO_NAME}.app.src
+    sed -i "s/{{ repo-name }}/${REPO_NAME}/g" src/${REPO_NAME}.erl
+    sed -i "s/{{ repo-name }}/${REPO_NAME}/g" test/${REPO_NAME}_SUITE.erl
+    sed -i "s,{{ git-url }},${GIT_URL},g" src/${REPO_NAME}.app.src
+    sed -i "s/{{ repo-name }}/${REPO_NAME}/g" ${README}.md
 
-sed -i "s/{{ repo-name }}/${REPO_NAME}/g" test/${REPO_NAME}_SUITE.erl
+    if [ "$1" == "clean" ]; then
+        return 0
+    else
+        sed -i "s/{{ repo-name }}/${REPO_NAME}/g" .github/ISSUE_TEMPLATE/bug_report.md
+        sed -i "s/{{ repo-name }}/${REPO_NAME}/g" .github/ISSUE_TEMPLATE/feature_request.md
+        sed -i "s,{{ git-url }},${GIT_URL},g" .github/ISSUE_TEMPLATE/bug_report.md
+        sed -i "s,{{ git-url }},${GIT_URL},g" .github/ISSUE_TEMPLATE/feature_request.md
 
-sed -i "s/{{ repo-name }}/${REPO_NAME}/g" .github/ISSUE_TEMPLATE/bug_report.md
-sed -i "s/{{ repo-name }}/${REPO_NAME}/g" .github/ISSUE_TEMPLATE/feature_request.md
+    fi
+}
 
-sed -i "s,{{ git-url }},${GIT_URL},g" src/${REPO_NAME}.app.src
-sed -i "s,{{ git-url }},${GIT_URL},g" .github/ISSUE_TEMPLATE/bug_report.md
-sed -i "s,{{ git-url }},${GIT_URL},g" .github/ISSUE_TEMPLATE/feature_request.md
+bootstraping "$@"
 
-sed -i "s/{{ repo-name }}/${REPO_NAME}/g" ${README}.md
-
-rm -rf bootstrap
+rm -rf bootstrap .clean
