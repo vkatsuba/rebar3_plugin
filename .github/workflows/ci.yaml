@@ -16,15 +16,37 @@ jobs:
     strategy:
       matrix:
         otp: [23.3, 24.1]
-      fail-fast: false
-    container:
-      image: erlang:${{ matrix.otp }}
+        rebar: [3.17.0]
     steps:
     - uses: actions/checkout@v2
+    - uses: erlef/setup-beam@v1
+      with:
+        otp-version: ${{matrix.otp}}
+        rebar3-version: ${{matrix.rebar}}
     - name: Bootstrap
       if: always()
       run: ./bootstrap
     - name: Format check
       run: rebar3 format --verify
+    - name: Tests
+      run: rebar3 test
+
+  windows:
+    name: "Windows"
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        otp: [23.3, 24.1]
+        rebar: [3.17.0]
+    steps:
+    - uses: actions/checkout@v2
+    - uses: erlef/setup-beam@v1
+      with:
+        otp-version: ${{matrix.otp}}
+        rebar3-version: ${{matrix.rebar}}
+    - name: Bootstrap
+      if: always()
+      shell: cmd
+      run: sh bootstrap
     - name: Tests
       run: rebar3 test
