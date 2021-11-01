@@ -16,3 +16,47 @@ $ git add .
 $ git commit -m "Base rebar3 template"
 $ git push origin main
 ```
+## Commands
+Currently supports the following commands:
+* `bootstrap` - build by default with adding useful tools like `dialyzer`, `xref`, `hank`, etc
+```sh
+$ ./bootstrap
+$ tree -a
+├── .github
+│   ├── ISSUE_TEMPLATE
+│   │   ├── bug_report.md
+│   │   ├── feature_request.md
+│   │   └── other_issues.md
+│   └── workflows
+│       └── ci.yaml
+├── src
+│   ├── rebar3_plugin.app.src
+│   ├── rebar3_plugin.erl
+│   └── rebar3_plugin_prv.erl
+└── test
+    └── rebar3_plugin_SUITE.erl
+├── .gitignore
+├── LICENSE
+├── README.md
+├── CHANGELOG.md
+├── rebar.config
+├── elvis.config
+├── rebar.lock
+```
+* `bootstrap clean` - build without adding useful tools, configs, GitHub folder
+```sh
+$ ./bootstrap
+$ tree -a
+├── src
+│   ├── rebar3_plugin.app.src
+│   ├── rebar3_plugin.erl
+│   └── rebar3_plugin_prv.erl
+└── test
+    └── rebar3_plugin_SUITE.erl
+├── .gitignore
+├── LICENSE
+├── README.md
+├── CHANGELOG.md
+├── rebar.config
+├── rebar.lock
+```
