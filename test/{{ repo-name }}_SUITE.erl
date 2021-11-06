@@ -26,6 +26,6 @@ init_per_testcase(_Name, Config) ->
 end_per_testcase(_Name, _Config) ->
     ok.
 
--spec success(list()) -> ok | no_return().
+-spec success(ct_suite:ct_config()) -> ok | no_return().
 success(_Config) ->
     ?assert(true).
