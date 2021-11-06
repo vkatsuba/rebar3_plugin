@@ -1,6 +1,6 @@
 # rebar3_plugin
 
-A `rebar_plugin` is a simple [rebar3](https://rebar3.readme.io/) `GitHub` template which includes
+A `rebar_plugin` is a simple [rebar3](http://rebar3.org) `GitHub` template which includes
 the basic functionality that will be used in any `rebar3` plugin, as well as a ready-made template for `GitHub Actions`, `GitHub Issue Templates`, and the configuration for some useful tools like `dialyzer`, `xref`, `hank`, etc.
 
 ## How it works
