@@ -9,7 +9,7 @@
               {rebar_state, add_provider, 2},
               {rebar_state, command_parsed_args, 1}]).
 
--define(PROVIDER, rebar3_plugin).
+-define(PROVIDER, {{ repo-name }}).
 -define(DEPS, []).
 -define(OPTS,
         [{boolean, $b, "boolean", {boolean, false}, "Boolean example"},
