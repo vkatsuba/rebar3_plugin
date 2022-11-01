@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        otp: [23.3, 24.2]
-        rebar: [3.18.0]
+        otp: [23, 24, 25]
+        rebar: [3.20.0]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: erlef/setup-beam@v1
       with:
         otp-version: ${{matrix.otp}}
@@ -27,8 +27,12 @@ jobs:
       if: always()
       run: ./bootstrap
     - name: Format check
+      env:
+        ERL_FLAGS: "-enable-feature all"
       run: rebar3 format --verify
     - name: Tests
+      env:
+        ERL_FLAGS: "-enable-feature all"
       run: rebar3 test
 
   windows:
@@ -36,10 +40,10 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        otp: [23.3, 24.2]
-        rebar: [3.18.0]
+        otp: [23, 24, 25]
+        rebar: [3.20.0]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: erlef/setup-beam@v1
       with:
         otp-version: ${{matrix.otp}}
@@ -49,4 +53,6 @@ jobs:
       shell: cmd
       run: sh bootstrap
     - name: Tests
+      env:
+        ERL_FLAGS: "-enable-feature all"
       run: rebar3 test
