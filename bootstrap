@@ -24,6 +24,9 @@ bootstraping() {
     sed -i "s,{{ git-url }},${GIT_URL},g" src/${REPO_NAME}.app.src
     sed -i "s/{{ repo-name }}/${REPO_NAME}/g" ${README}.md
 
+    sed -i '/always/d' .github/workflows/ci.yaml
+    sed -i '/ootstrap/d' .github/workflows/ci.yaml
+
     if [ "$1" == "clean" ]; then
         return 0
     else
