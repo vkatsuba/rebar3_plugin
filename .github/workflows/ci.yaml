@@ -15,12 +15,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        otp: [23, 24, 25]
+        otp: [24, 25]
         rebar: [3.20.0]
     steps:
     - uses: actions/checkout@v3
     - uses: erlef/setup-beam@v1
       with:
+        version-type: strict
         otp-version: ${{matrix.otp}}
         rebar3-version: ${{matrix.rebar}}
     - name: Bootstrap
